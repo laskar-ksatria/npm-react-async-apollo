@@ -45,7 +45,7 @@ ReactDOM.render(
 
 ## Basic usage
 
-**ReactAsyncApollo(Query, options, [callback])**
+**AsyncApollo(Query, options, [callback])**
 
 | options   | Type   | Required | Value                                                 |
 | --------- | ------ | -------- | ----------------------------------------------------- |
@@ -93,9 +93,7 @@ const App = () => {
   
   return (
     <div>
-			<button type="button" onClick={handleWithPromise}>
-				handle with promises
-			</button>
+      <button onClick={handleWithPromise}>Get with promise</button>
     </div>
   )
 };
@@ -107,14 +105,14 @@ export default App;
 
 ```
 import React from 'react';
-import { AsyncApollo } from 'react-async-apollo';
+import { ReactAsyncApollo } from 'react-async-apollo';
 import { Q_GET_DINO } from './query';
 
 const App = () => {
 
   const handleWithAsyncAwait = async () => {
     try {
-      let data = await AsyncApollo(Q_GET_DINO, {type: "query", variables: {limit: 2}})
+      let data = await ReactAsyncApollo(Q_GET_DINO, {type: "query", variables: {limit: 2}})
       console.log(data)
     } catch (error) {
       console.log(error);
@@ -123,9 +121,7 @@ const App = () => {
 
   return (
     <div>
-			<button type="button" onClick={handleWithAsyncAwait}>
-				handle with async await
-			</button>
+			<button></butt
     </div>
   )
 };
@@ -139,13 +135,13 @@ You can use callback by passing it as a third parameters
 
 ```
 import React from 'react';
-import { AsyncApollo } from 'react-async-apollo';
+import { ReactAsyncApollo } from 'react-async-apollo';
 import { Q_GET_DINO } from './query';
 
 const App = () => {
 
   const handleWithCallBack = async () => {
-    AsyncApollo(Q_GET_DINO, { type: "query" }, (err, data) => {
+    ReactAsyncApollo(Q_GET_DINO, { type: "query" }, (err, data) => {
       if (data) {
         console.log(data)
       } else if (err) {
@@ -172,13 +168,13 @@ You can call the client by passing 'client' on first parameter. It will return a
 
 ```
 import React from 'react';
-import { AsyncApollo } from 'react-async-apollo';
+import { ReactAsyncApollo } from 'react-async-apollo';
 import { Q_GET_DINO } from './query';
 
 const App = () => {
 
   const handleWithClient = () => {
-    AsyncApollo('client', async client => {
+    ReactAsyncApollo('client', async client => {
       let { data, errors } = await client.query({ query: Q_SPACE, errorPolicy: "all" });
       if (data) {
         console.log(data)
@@ -208,13 +204,13 @@ Similar like fetching, but you passing type as 'mutation'
 
 ```
 import React from 'react';
-import { AsyncApollo } from 'react-async-apollo';
+import { ReactAsyncApollo } from 'react-async-apollo';
 import { Q_LOGIN } from './query';
 
 const App = () => {
 
   const handleWithPromise = () => {
-    AsyncApollo(LOGIN, { type: 'mutation', variables: {email: "your@mail.com", password: "1234"}})
+    ReactAsyncApollo(LOGIN, { type: 'mutation', variables: {email: "your@mail.com", password: "1234"}})
       .then(data => {
         console.log(data)
       })
@@ -237,13 +233,13 @@ Or use a client
 
 ```
 import React from 'react';
-import { AsyncApollo } from 'react-async-apollo';
+import { ReactAsyncApollo } from 'react-async-apollo';
 import { Q_LOGIN } from './query';
 
 const App = () => {
 
   const handleWithClient = () => {
-    AsyncApollo('client', async client => {
+    ReactAsyncApollo('client', async client => {
       let { data, errors } = await client.mutate({ 
       	mutation: Q_LOGIN, 
       	variables: { email: "laskar@mail.com", password: "1234" } 

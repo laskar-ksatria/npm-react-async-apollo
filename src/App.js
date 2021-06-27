@@ -3,7 +3,7 @@ import React from 'react';
 const App = () => {
   return (
     <div>
-      <h1>REACT ASYNC</h1>
+      <button onClick={handleWithPromise}>Get with promise</button>
     </div>
   )
 };
