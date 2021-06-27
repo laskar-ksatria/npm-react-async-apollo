@@ -36,7 +36,7 @@ export const InitProvider = ({ client: newClient, children }) => {
  * @param {*} callback
  * @returns
  */
-export const ReactAsyncApollo = async (Query, options, callback) => {
+export const AsyncApollo = async (Query, options, callback) => {
    let defaultOptions = { errorPolicy: "all" };
    if (Query === 'client') return options(client);
    let fetch;
