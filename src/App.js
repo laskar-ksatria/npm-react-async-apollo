@@ -4,13 +4,14 @@ import { Q_SPACE } from './query';
 
 const App = () => {
 
-  //Handle with promise
-  const handleWithPromise = () => {
-    ReactAsyncApollo(Q_SPACE, { type: 'Query' })
-      .then(data => {
-        console.log(data)
-      })
-      .catch(err => console.log(err))
+
+  const handleWithPromise = async () => {
+    try {
+      let data = await ReactAsyncApollo(Q_SPACE, { type: "query" })
+      console.log(data)
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
