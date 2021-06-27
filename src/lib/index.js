@@ -49,7 +49,7 @@ export const ReactAsyncApollo = async (Query, options, callback) => {
 
    if (type === mutation) {
       delete options.type;
-      fetch = client.mutate({ mutation: Query, ...options, ...defaultOptions })
+      fetch = client.mutate({ mutation: Query, variables: options.variables, ...defaultOptions })
    } else if (type === query) {
       delete options.type;
       fetch = client.query({ query: Query, ...options, ...defaultOptions });

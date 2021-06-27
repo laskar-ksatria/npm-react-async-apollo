@@ -74,14 +74,17 @@ const Q_GET_DINO = gql`
 
 **Using Promises**
 
+By default it will return promise
+
 ```
 import React from 'react';
 import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_GET_DINO } from './query';
 
 const App = () => {
 
   const handleWithPromise = () => {
-    ReactAsyncApollo(Q_GET_DINO, { type: 'query' })
+    ReactAsyncApollo(Q_GET_DINO, { type: 'query', fetchPolicy: "network-only" })
       .then(data => {
         console.log(data)
       })
@@ -91,7 +94,7 @@ const App = () => {
   return (
     <div>
 			<button type="button" onClick={handleWithPromise}>
-				Fetch with promises
+				handle with promises
 			</button>
     </div>
   )
@@ -105,12 +108,13 @@ export default App;
 ```
 import React from 'react';
 import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_GET_DINO } from './query';
 
 const App = () => {
 
   const handleWithAsyncAwait = async () => {
     try {
-      let data = await ReactAsyncApollo(Q_GET_DINO, {type: "query"})
+      let data = await ReactAsyncApollo(Q_GET_DINO, {type: "query", variables: {limit: 2}})
       console.log(data)
     } catch (error) {
       console.log(error);
@@ -120,7 +124,7 @@ const App = () => {
   return (
     <div>
 			<button type="button" onClick={handleWithAsyncAwait}>
-				Fetch with async await
+				handle with async await
 			</button>
     </div>
   )
@@ -128,4 +132,144 @@ const App = () => {
 
 export default App;
 ```
+
+**Using callback**
+
+You can use callback by passing it as a third parameters
+
+```
+import React from 'react';
+import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_GET_DINO } from './query';
+
+const App = () => {
+
+  const handleWithCallBack = async () => {
+    ReactAsyncApollo(Q_GET_DINO, { type: "query" }, (err, data) => {
+      if (data) {
+        console.log(data)
+      } else if (err) {
+        console.log(err)
+      }
+    })
+  };
+
+  return (
+    <div>
+			<button type="button" onClick={handleWithCallBack}>
+				handle with callback
+			</button>
+    </div>
+  )
+};
+
+export default App;
+```
+
+**Using client** 
+
+You can call the client by passing 'client' on first parameter. It will return as callback
+
+```
+import React from 'react';
+import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_GET_DINO } from './query';
+
+const App = () => {
+
+  const handleWithClient = () => {
+    ReactAsyncApollo('client', async client => {
+      let { data, errors } = await client.query({ query: Q_SPACE, errorPolicy: "all" });
+      if (data) {
+        console.log(data)
+      } else if (errors) {
+        console.log(errors)
+      }
+    })
+  };
+
+  return (
+    <div>
+			<button type="button" onClick={handleWithClient}>
+				handle with client
+			</button>
+    </div>
+  )
+};
+
+export default App;
+```
+
+
+
+### Mutation
+
+Similar like fetching, but you passing type as 'mutation'
+
+```
+import React from 'react';
+import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_LOGIN } from './query';
+
+const App = () => {
+
+  const handleWithPromise = () => {
+    ReactAsyncApollo(LOGIN, { type: 'mutation', variables: {email: "your@mail.com", password: "1234"}})
+      .then(data => {
+        console.log(data)
+      })
+      .catch(err => console.log(err))
+  };
+  
+  return (
+    <div>
+			<button type="button" onClick={handleWithPromise}>
+				handle with promises
+			</button>
+    </div>
+  )
+};
+
+export default App;
+```
+
+Or use a client
+
+```
+import React from 'react';
+import { ReactAsyncApollo } from 'react-async-apollo';
+import { Q_LOGIN } from './query';
+
+const App = () => {
+
+  const handleWithClient = () => {
+    ReactAsyncApollo('client', async client => {
+      let { data, errors } = await client.mutate({ 
+      	mutation: Q_LOGIN, 
+      	variables: { email: "laskar@mail.com", password: "1234" } 
+      	})
+      if (data) console.log(data);
+      if (errors) console.log(errors)
+    })
+  };
+  
+  return (
+    <div>
+			<button type="button" onClick={handleWithClient}>
+				handle with client
+			</button>
+    </div>
+  )
+};
+
+export default App;
+```
+
+
+
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section.
+
+
 
